@@ -28,7 +28,7 @@ class RestaurantsRepository @Inject constructor(
     @IoDispatcher dispatcher: CoroutineDispatcher
 ) : BaseRepository<RestaurantsWrapper, Nothing, Nothing>(context, dispatcher) {
 
-    override suspend fun query(queryValue: Nothing?) =
+    override suspend fun query(queryValue: Nothing?): RestaurantsWrapper? =
         restaurantDao.getAll()
             .takeIf { it.isNotEmpty() }
             ?.let {
@@ -58,7 +58,19 @@ class RestaurantsRepository @Inject constructor(
                 }
                 .awaitAll()
         }
-        return RestaurantsWrapper(restaurants, filters)
+
+        val filterNameMap = filters.associate { it.id to it.name }
+
+        val restaurantsWithFilterNames = restaurants.map { restaurant ->
+            restaurant.copy(
+                filterNames = restaurant.filterIds.mapNotNull(filterNameMap::get)
+            )
+        }
+
+        return RestaurantsWrapper(
+            restaurantsWithFilterNames,
+            filters
+        )
     }
 
     override suspend fun saveFetchResult(item: RestaurantsWrapper) {

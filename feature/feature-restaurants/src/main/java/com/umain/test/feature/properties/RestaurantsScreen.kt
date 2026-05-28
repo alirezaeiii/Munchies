@@ -159,6 +159,6 @@ fun RestaurantRowComposable(
 ) {
     Column {
         Text(restaurant.name)
-        Text(restaurant.rating.toString())
+        Text(restaurant.filterNames.joinToString(", "))
     }
 }

@@ -10,6 +10,7 @@ data class RestaurantEntity(
     val name: String,
     val rating: Float,
     val filterIds: List<String>,
+    val filterNames: List<String>,
     val imageUrl: String?,
     val deliveryTimeMinutes: String?
 )
@@ -23,6 +24,7 @@ private fun RestaurantEntity.asDomainModel() = Restaurant(
     name = name,
     rating = rating,
     filterIds = filterIds,
+    filterNames = filterNames,
     imageUrl = imageUrl,
     deliveryTimeMinutes = deliveryTimeMinutes
 )
@@ -32,6 +34,7 @@ private fun Restaurant.asDatabaseModel() = RestaurantEntity(
     name = name,
     rating = rating,
     filterIds = filterIds,
+    filterNames = filterNames,
     imageUrl = imageUrl,
     deliveryTimeMinutes = deliveryTimeMinutes
 )
