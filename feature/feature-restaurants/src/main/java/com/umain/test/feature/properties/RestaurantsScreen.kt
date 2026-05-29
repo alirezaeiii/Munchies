@@ -68,7 +68,7 @@ fun RestaurantsScreen(
             ) {
 
                 MultiSelectChips(
-                    items = state.base.items?.filters,
+                    items = state.base.items?.allFilters,
                     onSelectionChanged = { selectedItems ->
                         viewModel.onFilterChanged(selectedItems)
                     }

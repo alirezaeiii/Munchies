@@ -17,7 +17,7 @@ class RestaurantsViewModel @Inject constructor(
 
     override fun onSuccess(items: RestaurantsWrapper, isUserRefresh: Boolean) {
         if (isUserRefresh) {
-            submitQuery(_state.value.filters, items)
+            submitQuery(_state.value.activeFilters, items)
         } else {
             _state.value = RestaurantsViewState(
                 base = ViewState(
@@ -30,7 +30,7 @@ class RestaurantsViewModel @Inject constructor(
 
     fun onFilterChanged(filters: List<String>) {
         updateState { old ->
-            old.copy(filters = filters)
+            old.copy(activeFilters = filters)
         }
         refresh(
             isUserRefresh = true,
@@ -38,13 +38,13 @@ class RestaurantsViewModel @Inject constructor(
         )
     }
 
-    private fun submitQuery(filters: List<String>, restaurantItems: RestaurantsWrapper) {
+    private fun submitQuery(activeFilters: List<String>, restaurantItems: RestaurantsWrapper) {
         val filteredRestaurants =
-            if (filters.isEmpty()) {
+            if (activeFilters.isEmpty()) {
                 restaurantItems.restaurants
             } else {
                 restaurantItems.restaurants.filter { restaurant ->
-                    filters.all { selectedFilter ->
+                    activeFilters.all { selectedFilter ->
                         selectedFilter in restaurant.filterIds
                     }
                 }
@@ -55,7 +55,7 @@ class RestaurantsViewModel @Inject constructor(
                 items = restaurantItems
             ),
             filteredRestaurants = filteredRestaurants,
-            filters = filters
+            activeFilters = activeFilters
         )
     }
 }

@@ -75,6 +75,6 @@ class RestaurantsRepository @Inject constructor(
 
     override suspend fun saveFetchResult(item: RestaurantsWrapper) {
         restaurantDao.insertAll(item.restaurants.asDatabaseModel())
-        filterDao.insertAll(item.filters.asDatabaseModel())
+        filterDao.insertAll(item.allFilters.asDatabaseModel())
     }
 }
