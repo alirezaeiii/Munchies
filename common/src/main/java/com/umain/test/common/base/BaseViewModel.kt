@@ -36,7 +36,7 @@ abstract class BaseViewModel<TYPE, STATE : BaseScreenState<TYPE>, QueryType, Fet
             refresh()
     }
 
-    protected abstract fun onSuccess(items: TYPE, isUserRefresh: Boolean)
+    protected abstract fun onSuccess(items: TYPE)
 
     protected fun updateState(reducer: (STATE) -> STATE) {
         _state.update(reducer)
@@ -45,7 +45,6 @@ abstract class BaseViewModel<TYPE, STATE : BaseScreenState<TYPE>, QueryType, Fet
     fun refresh(
         queryValue: QueryType? = null,
         fetchValue: FetchType? = null,
-        isUserRefresh: Boolean = false,
         forceRefresh: Boolean = true
     ) {
         job?.cancel()
@@ -57,7 +56,7 @@ abstract class BaseViewModel<TYPE, STATE : BaseScreenState<TYPE>, QueryType, Fet
                     }
                 }
 
-                is Async.Success -> onSuccess(uiState.data, isUserRefresh)
+                is Async.Success -> onSuccess(uiState.data)
 
                 is Async.Error -> {
                     updateState { old ->

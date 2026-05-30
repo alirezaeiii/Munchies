@@ -1,4 +1,4 @@
-package com.umain.test.feature.properties
+package com.umain.test.feature.restaurants
 
 import com.umain.test.common.base.BaseScreenState
 import com.umain.test.common.base.ViewState

@@ -1,4 +1,4 @@
-package com.umain.test.feature.properties
+package com.umain.test.feature.restaurants
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -28,7 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.umain.test.common.base.Content
-import com.umain.test.common.ui.common.PropertiesSwipeRefresh
+import com.umain.test.common.ui.common.UmainSwipeRefresh
 import com.umain.test.domain.model.Filter
 import com.umain.test.domain.model.Restaurant
 
@@ -74,7 +74,7 @@ fun RestaurantsScreen(
                     }
                 )
 
-                PropertiesSwipeRefresh(
+                UmainSwipeRefresh(
                     modifier = Modifier.align(Alignment.CenterHorizontally),
                     viewModel = viewModel,
                     state = state,
@@ -142,12 +142,12 @@ fun MultiSelectChips(
 
 @Composable
 fun RestaurantsScreenContent(
-    filteredProperties: List<Restaurant>,
+    filteredRestaurants: List<Restaurant>,
     navigateToDetail: (Restaurant) -> Unit
 ) {
     LazyColumn(modifier = Modifier.fillMaxSize()) {
-        items(filteredProperties) { property ->
-            RestaurantRowComposable(property, navigateToDetail)
+        items(filteredRestaurants) { restaurant ->
+            RestaurantRowComposable(restaurant, navigateToDetail)
         }
     }
 }

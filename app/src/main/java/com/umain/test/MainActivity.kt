@@ -20,7 +20,7 @@ import com.umain.test.common.ui.common.Screens
 import com.umain.test.common.ui.common.Screens.Companion.PROPERTY
 import com.umain.test.domain.model.Restaurant
 import com.umain.test.feature.details.DetailsScreen
-import com.umain.test.feature.properties.RestaurantsScreen
+import com.umain.test.feature.restaurants.RestaurantsScreen
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.hilt.navigation.compose.hiltViewModel
 

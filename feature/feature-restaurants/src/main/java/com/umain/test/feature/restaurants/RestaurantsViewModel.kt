@@ -1,4 +1,4 @@
-package com.umain.test.feature.properties
+package com.umain.test.feature.restaurants
 
 import com.umain.test.common.base.BaseRepository
 import com.umain.test.common.base.BaseViewModel
@@ -15,35 +15,13 @@ class RestaurantsViewModel @Inject constructor(
     RestaurantsViewState(base = ViewState(isLoading = true))
 ) {
 
-    override fun onSuccess(items: RestaurantsWrapper, isUserRefresh: Boolean) {
-        if (isUserRefresh) {
-            submitQuery(_state.value.activeFilters, items)
-        } else {
-            _state.value = RestaurantsViewState(
-                base = ViewState(
-                    items = items,
-                ),
-                filteredRestaurants = items.restaurants
-            )
-        }
-    }
-
-    fun onFilterChanged(filters: List<String>) {
-        updateState { old ->
-            old.copy(activeFilters = filters)
-        }
-        refresh(
-            isUserRefresh = true,
-            forceRefresh = false
-        )
-    }
-
-    private fun submitQuery(activeFilters: List<String>, restaurantItems: RestaurantsWrapper) {
+    override fun onSuccess(items: RestaurantsWrapper) {
+        val activeFilters = _state.value.activeFilters
         val filteredRestaurants =
             if (activeFilters.isEmpty()) {
-                restaurantItems.restaurants
+                items.restaurants
             } else {
-                restaurantItems.restaurants.filter { restaurant ->
+                items.restaurants.filter { restaurant ->
                     activeFilters.all { selectedFilter ->
                         selectedFilter in restaurant.filterIds
                     }
@@ -52,10 +30,17 @@ class RestaurantsViewModel @Inject constructor(
 
         _state.value = RestaurantsViewState(
             base = ViewState(
-                items = restaurantItems
+                items = items
             ),
             filteredRestaurants = filteredRestaurants,
             activeFilters = activeFilters
         )
+    }
+
+    fun onFilterChanged(filters: List<String>) {
+        updateState { old ->
+            old.copy(activeFilters = filters)
+        }
+        refresh(forceRefresh = false)
     }
 }

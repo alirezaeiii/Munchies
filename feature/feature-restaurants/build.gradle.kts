@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.umain.test.feature.properties"
+    namespace = "com.umain.test.feature.restaurants"
     compileSdk {
         version = release(35)
     }
