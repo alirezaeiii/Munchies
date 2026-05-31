@@ -1,5 +1,6 @@
 package com.umain.test.feature.restaurants
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,29 +29,40 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.umain.test.common.base.Content
 import com.umain.test.common.ui.CardBackground
 import com.umain.test.common.ui.DarkText
-import com.umain.test.common.ui.Rating
-import com.umain.test.common.ui.Subtitle
+import com.umain.test.common.ui.GrayText
 import com.umain.test.common.ui.common.UmainSwipeRefresh
+import com.umain.test.common.ui.selectedContainerColor
+import com.umain.test.common.ui.selectedLabelColor
+import com.umain.test.common.ui.subTitleText
 import com.umain.test.domain.model.Filter
 import com.umain.test.domain.model.Restaurant
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -58,20 +70,28 @@ fun RestaurantsScreen(
     viewModel: RestaurantsViewModel,
     navigateToDetail: (Restaurant) -> Unit
 ) {
-
-    val snackbarHostState = remember {
-        SnackbarHostState()
-    }
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
 
     Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState)
         },
         topBar = {
             TopAppBar(
                 title = {
-                    Text(stringResource(R.string.umain))
-                }
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_umain),
+                            contentDescription = "Banner",
+                            contentScale = ContentScale.Crop
+                        )
+                    }
+                },
+                scrollBehavior = scrollBehavior,
             )
         }
     ) { paddingValues ->
@@ -118,7 +138,7 @@ fun CustomFilterChipRow(
 ) {
     LazyRow(
         modifier = Modifier.fillMaxWidth(),
-        contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 4.dp, bottom = 2.dp),
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 4.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -184,9 +204,9 @@ fun CustomFilterChip(
             ),
         colors = FilterChipDefaults.filterChipColors(
             containerColor = MaterialTheme.colorScheme.background,
-            selectedContainerColor = Color(0xFFE3F2FD),
-            labelColor = Color.Black,
-            selectedLabelColor = Color(0xFF1976D2)
+            selectedContainerColor = selectedContainerColor,
+            labelColor = MaterialTheme.colorScheme.onBackground,
+            selectedLabelColor = selectedLabelColor
         ),
         shape = RoundedCornerShape(24.dp),
         border = null
@@ -199,89 +219,113 @@ fun RestaurantsScreenContent(
     filteredRestaurants: List<Restaurant>,
     navigateToDetail: (Restaurant) -> Unit
 ) {
-    LazyColumn(modifier = Modifier.fillMaxSize(), contentPadding = PaddingValues(16.dp)) {
-        items(filteredRestaurants) { restaurant ->
-            RestaurantRowComposable(restaurant, navigateToDetail)
+    if (filteredRestaurants.isEmpty()) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            NoDataFoundAnimation(modifier = Modifier.size(200.dp))
+        }
+    } else {
+        LazyColumn(modifier = Modifier.fillMaxSize(), contentPadding = PaddingValues(16.dp)) {
+            items(filteredRestaurants) { restaurant ->
+                Card(
+                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+                    modifier = Modifier.padding(top = 8.dp, bottom = 8.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = CardBackground
+                    ),
+                    shape = RoundedCornerShape(
+                        topStart = 12.dp,
+                        topEnd = 12.dp,
+                        bottomEnd = 0.dp,
+                        bottomStart = 0.dp
+                    ),
+                    onClick = { navigateToDetail(restaurant) }
+                ) {
+
+                    AsyncImage(
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data(restaurant.imageUrl)
+                            .crossfade(true)
+                            .build(),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(132.dp),
+                        contentScale = ContentScale.FillWidth
+                    )
+                    Box(
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .fillMaxWidth()
+                    ) {
+                        Column {
+                            Text(
+                                text = restaurant.name,
+                                color = DarkText
+                            )
+                            Spacer(modifier = Modifier.height(2.dp))
+                            Text(
+                                text = restaurant.filterNames.joinToString(separator = " - "),
+                                color = GrayText
+                            )
+                            Spacer(modifier = Modifier.height(2.dp))
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Image(
+                                    painter = painterResource(id = R.drawable.ic_clock),
+                                    contentDescription = null,
+                                    modifier = Modifier.size(width = 10.dp, height = 10.dp)
+                                )
+                                Text(
+                                    text = String.format(
+                                        Locale.ROOT,
+                                        "%d mins",
+                                        restaurant.deliveryTimeMinutes
+                                    ),
+                                    color = subTitleText,
+                                    modifier = Modifier.padding(start = 3.dp)
+                                )
+                            }
+                        }
+                        Row(
+                            modifier = Modifier.align(Alignment.TopEnd)
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.ic_star),
+                                contentDescription = null,
+                                modifier = Modifier.size(width = 12.dp, height = 12.dp)
+                            )
+                            Text(
+                                text = String.format(Locale.ROOT, "%.1f", restaurant.rating),
+                                color = subTitleText,
+                                modifier = Modifier.padding(start = 3.dp)
+                            )
+                        }
+                    }
+                }
+            }
         }
     }
 }
 
 @Composable
-fun RestaurantRowComposable(
-    restaurant: Restaurant,
-    navigateToDetail: (Restaurant) -> Unit
-) {
-    Card(
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        modifier = Modifier.padding(top = 8.dp, bottom = 8.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = CardBackground
+private fun NoDataFoundAnimation(modifier: Modifier = Modifier) {
+    val preloaderLottieComposition by rememberLottieComposition(
+        LottieCompositionSpec.RawRes(
+            R.raw.no_data_found,
         ),
-        shape = RoundedCornerShape(
-            topStart = 12.dp,
-            topEnd = 12.dp,
-            bottomEnd = 0.dp,
-            bottomStart = 0.dp
-        ),
-        onClick = { navigateToDetail(restaurant) }
-    ) {
-
-        AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(restaurant.imageUrl)
-                .crossfade(true)
-                .build(),
-            contentDescription = null,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(132.dp),
-            contentScale = ContentScale.FillWidth
-        )
-        Box(
-            modifier = Modifier
-                .padding(8.dp)
-                .fillMaxWidth()
-        ) {
-            Column {
-                Text(
-                    text = restaurant.name,
-                    color = DarkText
-                )
-                Spacer(modifier = Modifier.height(2.dp))
-                Text(
-                    text = restaurant.filterNames.joinToString(separator = " - "),
-                    color = Subtitle
-                )
-                Spacer(modifier = Modifier.height(2.dp))
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    /*Image(
-                        painter = painterResource(id = R.drawable.),
-                        contentDescription = null,
-                        modifier = Modifier.size(width = 10.dp, height = 10.dp)
-                    )*/
-                    Text(
-                        text = String.format("%d mins", restaurant.deliveryTimeMinutes),
-                        color = Rating,
-                        modifier = Modifier.padding(start = 3.dp)
-                    )
-                }
-            }
-            Row(
-                modifier = Modifier.align(Alignment.TopEnd)
-            ) {
-                /*Image(
-                    painter = painterResource(id = R.drawable.m3_split_button_chevron_avd),
-                    contentDescription = null,
-                    modifier = Modifier.size(width = 12.dp, height = 12.dp)
-                )*/
-                Text(
-                    text = String.format("%.1f", restaurant.rating),
-                    color = Rating,
-                    modifier = Modifier.padding(start = 3.dp)
-                )
-            }
-        }
-    }
+    )
+    val preloaderProgress by animateLottieCompositionAsState(
+        preloaderLottieComposition,
+        iterations = LottieConstants.IterateForever,
+        isPlaying = true,
+    )
+    LottieAnimation(
+        composition = preloaderLottieComposition,
+        progress = preloaderProgress,
+        modifier = modifier,
+    )
 }

@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 
 @Composable
-fun PropertyImage(thumb: String?, modifier: Modifier = Modifier) {
+fun RestaurantImage(thumb: String?, modifier: Modifier = Modifier) {
     Box(
         Modifier
             .fillMaxSize()

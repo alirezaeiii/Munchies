@@ -29,7 +29,7 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.constraintlayout.compose.ExperimentalMotionApi
 import androidx.constraintlayout.compose.MotionLayout
 import androidx.constraintlayout.compose.MotionScene
-import com.umain.test.common.ui.common.PropertyImage
+import com.umain.test.common.ui.common.RestaurantImage
 import com.umain.test.domain.model.Restaurant
 
 @OptIn(ExperimentalMotionApi::class)
@@ -123,7 +123,7 @@ fun DetailsScreen(
                 .layoutId("image")
                 .fillMaxSize()
         ) {
-            PropertyImage(
+            RestaurantImage(
                 thumb = restaurant.imageUrl,
                 modifier = Modifier.matchParentSize()
             )
