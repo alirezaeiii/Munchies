@@ -11,8 +11,8 @@ data class RestaurantEntity(
     val rating: Float,
     val filterIds: List<String>,
     val filterNames: List<String>,
-    val imageUrl: String?,
-    val deliveryTimeMinutes: String?
+    val imageUrl: String,
+    val deliveryTimeMinutes: Int
 )
 
 fun List<RestaurantEntity>.asDomainModel() = map(RestaurantEntity::asDomainModel)

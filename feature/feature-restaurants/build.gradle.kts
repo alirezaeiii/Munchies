@@ -54,5 +54,7 @@ dependencies {
     implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.hilt)
     ksp(libs.hilt.compiler)
+    implementation(libs.coil.compose)
+    implementation(libs.coil.compose.core)
     implementation(libs.lottie.compose)
 }

@@ -1,17 +1,17 @@
 package com.umain.test.data.response
 
+import com.google.gson.annotations.SerializedName
 import com.umain.test.domain.model.Restaurant
-import com.squareup.moshi.Json
 
 data class RestaurantResponse(
     val id: String,
     val name: String,
     val rating: Float,
     val filterIds: List<String>,
-    @param:Json(name = "image_url")
-    val imageUrl: String?,
-    @param:Json(name = "delivery_time_minutes")
-    val deliveryTimeMinutes: String?
+    @SerializedName("image_url")
+    val imageUrl: String,
+    @SerializedName("delivery_time_minutes")
+    val deliveryTimeMinutes: Int
 )
 
 fun List<RestaurantResponse>.asDomainModel() = map(RestaurantResponse::asDomainModel)

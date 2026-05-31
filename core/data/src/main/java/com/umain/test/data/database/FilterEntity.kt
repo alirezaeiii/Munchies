@@ -8,7 +8,7 @@ import com.umain.test.domain.model.Filter
 data class FilterEntity(
     @PrimaryKey val id: String,
     val name: String,
-    val imageUrl: String?
+    val imageUrl: String
 )
 
 fun List<FilterEntity>.asDomainModel() = map(FilterEntity::asDomainModel)

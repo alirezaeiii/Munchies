@@ -41,7 +41,8 @@ android {
 dependencies {
     api(project(":core:domain"))
     implementation(libs.retrofit)
-    implementation(libs.moshi.converter)
+    implementation(libs.gson.converter)
+    implementation(libs.gson)
 
     implementation(libs.androidx.room)
     implementation(libs.androidx.room.ktx)

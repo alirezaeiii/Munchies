@@ -1,13 +1,14 @@
 package com.umain.test.data.di
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.umain.test.data.api.BackendApi
-import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -15,14 +16,13 @@ import javax.inject.Singleton
 object NetworkModule {
     @Singleton
     @Provides
-    fun provideMoshi(): Moshi = Moshi.Builder()
-        .build()
+    fun provideGson(): Gson = GsonBuilder().create()
 
     @Singleton
     @Provides
-    fun provideBackendApi(moshi: Moshi): BackendApi = Retrofit.Builder()
+    fun provideBackendApi(gson: Gson): BackendApi = Retrofit.Builder()
         .baseUrl("https://food-delivery.umain.io/api/v1/")
-        .addConverterFactory(MoshiConverterFactory.create(moshi).asLenient())
+        .addConverterFactory(GsonConverterFactory.create(gson))
         .build()
         .create(BackendApi::class.java)
 }

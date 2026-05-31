@@ -6,6 +6,6 @@ data class Restaurant(
     val rating: Float,
     val filterIds: List<String>,
     val filterNames: List<String> = emptyList(),
-    val imageUrl: String?,
-    val deliveryTimeMinutes: String?
+    val imageUrl: String,
+    val deliveryTimeMinutes: Int
 )
