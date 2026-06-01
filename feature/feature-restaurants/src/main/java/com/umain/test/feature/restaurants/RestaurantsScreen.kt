@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -136,13 +137,18 @@ fun CustomFilterChipRow(
     activeFilters: List<String>,
     onSelectionChanged: (List<String>) -> Unit
 ) {
+    val listState = rememberLazyListState()
+
     LazyRow(
+        state = listState,
         modifier = Modifier.fillMaxWidth(),
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 4.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        items(items = allFilters) { filter ->
+        items(
+            items = allFilters,
+            key = { filter -> filter.id }) { filter ->
             val isSelected = filter.id in activeFilters
             CustomFilterChip(
                 text = filter.name,
