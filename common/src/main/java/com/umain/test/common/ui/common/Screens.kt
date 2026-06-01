@@ -1,10 +1,10 @@
 package com.umain.test.common.ui.common
 
 sealed class Screens(val title: String) {
-    object Properties : Screens("properties_screen")
-    object Details : Screens("details_screen/{$PROPERTY}")
+    object Restaurants : Screens("restaurants_screen")
+    object Details : Screens("details_screen/{$RESTAURANT}")
 
     companion object {
-        const val PROPERTY = "property"
+        const val RESTAURANT = "restaurant"
     }
 }

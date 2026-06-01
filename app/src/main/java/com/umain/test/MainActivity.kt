@@ -17,7 +17,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.umain.test.common.ui.AppTheme
 import com.umain.test.common.ui.common.Screens
-import com.umain.test.common.ui.common.Screens.Companion.PROPERTY
+import com.umain.test.common.ui.common.Screens.Companion.RESTAURANT
 import com.umain.test.domain.model.Restaurant
 import com.umain.test.feature.details.DetailsScreen
 import com.umain.test.feature.restaurants.RestaurantsScreen
@@ -44,27 +44,27 @@ class MainActivity : AppCompatActivity() {
 
 @Composable
 fun NavGraph(navController: NavHostController) {
-    NavHost(navController, startDestination = Screens.Properties.title) {
-        composable(Screens.Properties.title) {
-            RestaurantsScreen(hiltViewModel()) { property ->
+    NavHost(navController, startDestination = Screens.Restaurants.title) {
+        composable(Screens.Restaurants.title) {
+            RestaurantsScreen(hiltViewModel()) { restaurant ->
                 val json = Uri.encode(
                     Gson().toJson(
-                        property, object : TypeToken<Restaurant>() {}.type
+                        restaurant, object : TypeToken<Restaurant>() {}.type
                     )
                 )
                 navController.navigate(
-                    Screens.Details.title.replace("{${PROPERTY}}", json)
+                    Screens.Details.title.replace("{${RESTAURANT}}", json)
                 )
             }
         }
         composable(
             Screens.Details.title, arguments = listOf(
-            navArgument(PROPERTY) {
+            navArgument(RESTAURANT) {
                 type = NavType.StringType
             })) { from ->
             DetailsScreen(
                 Gson().fromJson(
-                    from.arguments?.getString(PROPERTY),
+                    from.arguments?.getString(RESTAURANT),
                     object : TypeToken<Restaurant>() {}.type,
                 )
             ) {
