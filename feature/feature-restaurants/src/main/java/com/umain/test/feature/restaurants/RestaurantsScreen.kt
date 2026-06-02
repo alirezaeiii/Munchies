@@ -137,18 +137,14 @@ fun CustomFilterChipRow(
     activeFilters: List<String>,
     onSelectionChanged: (List<String>) -> Unit
 ) {
-    val listState = rememberLazyListState()
-
     LazyRow(
-        state = listState,
         modifier = Modifier.fillMaxWidth(),
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 4.dp),
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         items(
-            items = allFilters,
-            key = { filter -> filter.id }) { filter ->
+            items = allFilters) { filter ->
             val isSelected = filter.id in activeFilters
             CustomFilterChip(
                 text = filter.name,

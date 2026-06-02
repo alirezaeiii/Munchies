@@ -17,16 +17,7 @@ class RestaurantsViewModel @Inject constructor(
 
     override fun onSuccess(items: RestaurantsWrapper) {
         val activeFilters = _state.value.activeFilters
-        val filteredRestaurants =
-            if (activeFilters.isEmpty()) {
-                items.restaurants
-            } else {
-                items.restaurants.filter { restaurant ->
-                    activeFilters.all { selectedFilter ->
-                        selectedFilter in restaurant.filterIds
-                    }
-                }
-            }
+        val filteredRestaurants = getFilteredRestaurants(activeFilters, items)
 
         _state.value = RestaurantsViewState(
             base = ViewState(
@@ -38,9 +29,25 @@ class RestaurantsViewModel @Inject constructor(
     }
 
     fun onFilterChanged(filters: List<String>) {
-        updateState { old ->
-            old.copy(activeFilters = filters)
+        val items = _state.value.base.items ?: return
+        val filteredRestaurants = getFilteredRestaurants(filters, items)
+
+        updateState {
+            it.copy(
+                filteredRestaurants = filteredRestaurants,
+                activeFilters = filters
+            )
         }
-        refresh(forceRefresh = false)
     }
+
+    private fun getFilteredRestaurants(filters: List<String>, items: RestaurantsWrapper) =
+        if (filters.isEmpty()) {
+            items.restaurants
+        } else {
+            items.restaurants.filter { restaurant ->
+                filters.all { selectedFilter ->
+                    selectedFilter in restaurant.filterIds
+                }
+            }
+        }
 }
