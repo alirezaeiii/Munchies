@@ -281,7 +281,7 @@ fun RestaurantsScreenContent(
                                 Image(
                                     painter = painterResource(id = R.drawable.ic_clock),
                                     contentDescription = null,
-                                    modifier = Modifier.size(width = 10.dp, height = 10.dp)
+                                    modifier = Modifier.size(12.dp)
                                 )
                                 Text(
                                     text = String.format(
@@ -300,7 +300,7 @@ fun RestaurantsScreenContent(
                             Image(
                                 painter = painterResource(id = R.drawable.ic_star),
                                 contentDescription = null,
-                                modifier = Modifier.size(width = 12.dp, height = 12.dp)
+                                modifier = Modifier.size(14.dp)
                             )
                             Text(
                                 text = String.format(
