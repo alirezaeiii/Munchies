@@ -56,7 +56,10 @@ fun DetailsScreen(
         when {
             state.isLoading -> ProgressScreen()
             state.error != null ->
-                ErrorScreen(stringResource(commonR.string.error_msg)) { viewModel.load() }
+                ErrorScreen(
+                    if (state.errorMessage == null) stringResource(commonR.string.error_msg)
+                    else stringResource(R.string.restaurant_not_found)
+                ) { viewModel.load() }
 
             else -> DetailsScreen(restaurant, state, navigateUp)
         }
