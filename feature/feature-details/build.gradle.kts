@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -49,7 +50,10 @@ dependencies {
     implementation(libs.androidx.material)
     implementation(libs.androidx.compose)
     implementation(libs.androidx.compose.material)
+    implementation(libs.androidx.material3)
     implementation(libs.androidx.compose.material.icons.extended)
+    implementation(libs.hilt)
+    ksp(libs.hilt.compiler)
     implementation(libs.androidx.compose.uitooloing)
     implementation(libs.androidx.compose.constraintlayout)
 
