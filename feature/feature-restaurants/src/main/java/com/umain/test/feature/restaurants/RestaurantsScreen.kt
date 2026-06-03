@@ -53,7 +53,6 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.umain.test.common.base.Content
-import com.umain.test.common.ui.CardBackground
 import com.umain.test.common.ui.DarkText
 import com.umain.test.common.ui.GrayText
 import com.umain.test.common.ui.common.UmainSwipeRefresh
@@ -238,7 +237,7 @@ fun RestaurantsScreenContent(
                     elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
                     modifier = Modifier.padding(top = 8.dp, bottom = 8.dp),
                     colors = CardDefaults.cardColors(
-                        containerColor = CardBackground
+                        containerColor = MaterialTheme.colorScheme.background
                     ),
                     shape = RoundedCornerShape(
                         topStart = 12.dp,
@@ -304,7 +303,10 @@ fun RestaurantsScreenContent(
                                 modifier = Modifier.size(width = 12.dp, height = 12.dp)
                             )
                             Text(
-                                text = String.format(Locale.ROOT, "%.1f", restaurant.rating),
+                                text = String.format(
+                                    Locale.ROOT,
+                                    "%.1f", restaurant.rating
+                                ),
                                 color = subTitleText,
                                 modifier = Modifier.padding(start = 3.dp)
                             )
