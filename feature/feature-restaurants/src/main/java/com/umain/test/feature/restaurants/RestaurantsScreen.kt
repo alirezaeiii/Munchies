@@ -143,7 +143,8 @@ fun CustomFilterChipRow(
         verticalAlignment = Alignment.CenterVertically
     ) {
         items(
-            items = allFilters) { filter ->
+            items = allFilters
+        ) { filter ->
             val isSelected = filter.id in activeFilters
             CustomFilterChip(
                 text = filter.name,
@@ -228,7 +229,10 @@ fun RestaurantsScreenContent(
             NoDataFoundAnimation(modifier = Modifier.size(200.dp))
         }
     } else {
-        LazyColumn(modifier = Modifier.fillMaxSize(), contentPadding = PaddingValues(16.dp)) {
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(vertical = 8.dp, horizontal = 16.dp)
+        ) {
             items(filteredRestaurants) { restaurant ->
                 Card(
                     elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
