@@ -182,7 +182,7 @@ fun CustomFilterChip(
                     model = imageUrl,
                     contentDescription = null,
                     modifier = Modifier
-                        .size(56.dp)
+                        .size(52.dp)
                         .clip(CircleShape),
                     contentScale = ContentScale.Crop
                 )
@@ -196,8 +196,8 @@ fun CustomFilterChip(
             }
         },
         modifier = modifier
-            .width(180.dp)
-            .height(56.dp)
+            .width(160.dp)
+            .height(52.dp)
             .shadow(
                 elevation = 8.dp,
                 shape = RoundedCornerShape(24.dp),
