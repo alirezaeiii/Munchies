@@ -22,19 +22,19 @@ class DetailViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _status = MutableStateFlow(DetailViewState())
-    val state = _status.asStateFlow()
+    private val _state = MutableStateFlow(DetailViewState())
+    val state = _state.asStateFlow()
 
     init {
         load()
     }
 
     fun load() = viewModelScope.launch {
-        _status.update { it.copy(isLoading = true) }
+        _state.update { it.copy(isLoading = true) }
         try {
             val status =
                 repository.getStatus(savedStateHandle.get<Restaurant>(RESTAURANT)?.id!!)
-            _status.value = DetailViewState(isOpen = status.isCurrentlyOpen)
+            _state.value = DetailViewState(isOpen = status.isCurrentlyOpen)
         } catch (t: Throwable) {
             val errorState = if (t is HttpException && t.code() == 404) {
                 val errorBody = t.response()?.errorBody()?.string()
@@ -44,7 +44,7 @@ class DetailViewModel @Inject constructor(
             } else {
                 DetailViewState(error = t)
             }
-            _status.value = errorState
+            _state.value = errorState
         }
     }
 }
