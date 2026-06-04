@@ -46,6 +46,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.retrofit)
     implementation(libs.androidx.compose)
     implementation(libs.androidx.compose.material)
     implementation(libs.androidx.material)
@@ -53,4 +54,5 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.coil.compose.core)
     implementation(libs.accompanist.swiperefresh)
+    implementation(libs.gson)
 }

@@ -47,7 +47,6 @@ android {
 
 dependencies {
     implementation(project(":core:domain"))
-    implementation(libs.retrofit)
     implementation(libs.androidx.material)
     implementation(libs.androidx.compose)
     implementation(libs.androidx.compose.material)
@@ -55,7 +54,6 @@ dependencies {
     implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.hilt)
     ksp(libs.hilt.compiler)
-    implementation(libs.gson)
     implementation(libs.androidx.compose.uitooloing)
     implementation(libs.androidx.compose.constraintlayout)
 
