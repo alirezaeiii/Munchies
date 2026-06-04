@@ -52,7 +52,9 @@ fun DetailsScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .background(color = MaterialTheme.colorScheme.surface)) {
         when {
             state.isLoading -> ProgressScreen()
             state.error != null ->
