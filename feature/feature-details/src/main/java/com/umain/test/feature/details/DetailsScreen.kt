@@ -220,7 +220,7 @@ fun DetailsScreen(
                 )
                 Text(
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
-                    text = restaurant.filterNames.joinToString(separator = " - "),
+                    text = restaurant.filterNames.joinToString(separator = " • "),
                     fontSize = 14.sp,
                     color = GrayText
                 )

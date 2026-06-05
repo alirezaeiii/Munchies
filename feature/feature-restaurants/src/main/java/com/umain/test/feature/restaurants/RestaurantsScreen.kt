@@ -271,7 +271,7 @@ fun RestaurantsScreenContent(
                             )
                             Spacer(modifier = Modifier.height(2.dp))
                             Text(
-                                text = restaurant.filterNames.joinToString(separator = " - "),
+                                text = restaurant.filterNames.joinToString(separator = " • "),
                                 color = GrayText
                             )
                             Spacer(modifier = Modifier.height(2.dp))
