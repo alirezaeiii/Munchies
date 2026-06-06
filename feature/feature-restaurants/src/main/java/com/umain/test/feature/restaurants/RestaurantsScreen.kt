@@ -21,8 +21,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilterChip
-import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -37,7 +35,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -106,7 +103,7 @@ fun RestaurantsScreen(
                     .fillMaxSize()
             ) {
 
-                CustomFilterChipRow(
+                UmainFilterChipRow(
                     allFilters = state.base.items?.allFilters ?: emptyList(),
                     activeFilters = state.activeFilters,
                     onSelectionChanged = { selectedItems ->
@@ -130,7 +127,7 @@ fun RestaurantsScreen(
 }
 
 @Composable
-fun CustomFilterChipRow(
+fun UmainFilterChipRow(
     allFilters: List<Filter>,
     activeFilters: List<String>,
     onSelectionChanged: (List<String>) -> Unit
@@ -145,7 +142,7 @@ fun CustomFilterChipRow(
             items = allFilters
         ) { filter ->
             val isSelected = filter.id in activeFilters
-            CustomFilterChip(
+            UmainFilterChip(
                 text = filter.name,
                 imageUrl = filter.imageUrl,
                 isSelected = isSelected,
@@ -163,55 +160,52 @@ fun CustomFilterChipRow(
 }
 
 @Composable
-fun CustomFilterChip(
+fun UmainFilterChip(
     text: String,
     imageUrl: String?,
     isSelected: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    FilterChip(
+    Card(
         onClick = onClick,
-        selected = isSelected,
-        label = {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                AsyncImage(
-                    model = imageUrl,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(52.dp)
-                        .clip(CircleShape),
-                    contentScale = ContentScale.Crop
-                )
-                Text(
-                    text = text,
-                    modifier = Modifier.padding(start = 4.dp, end = 4.dp),
-                    fontWeight = FontWeight.Medium,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
-        },
         modifier = modifier
-            .width(160.dp)
-            .height(52.dp)
-            .shadow(
-                elevation = 8.dp,
-                shape = RoundedCornerShape(24.dp),
-                clip = false
-            ),
-        colors = FilterChipDefaults.filterChipColors(
-            containerColor = MaterialTheme.colorScheme.background,
-            selectedContainerColor = selectedContainerColor,
-            labelColor = MaterialTheme.colorScheme.onBackground,
-            selectedLabelColor = selectedLabelColor
-        ),
+            .width(150.dp)
+            .height(52.dp),
         shape = RoundedCornerShape(24.dp),
-        border = null
-    )
+        colors = CardDefaults.cardColors(
+            containerColor = if (isSelected) selectedContainerColor
+            else MaterialTheme.colorScheme.background
+        ),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 8.dp
+        )
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxSize(),
+            horizontalArrangement = Arrangement.Start
+        ) {
+            AsyncImage(
+                model = imageUrl,
+                contentDescription = null,
+                modifier = Modifier
+                    .size(52.dp)
+                    .clip(CircleShape),
+                contentScale = ContentScale.Crop
+            )
+            Text(
+                text = text,
+                modifier = Modifier.padding(4.dp),
+                fontWeight = FontWeight.Medium,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                color = if (isSelected) selectedLabelColor
+                else MaterialTheme.colorScheme.onBackground
+            )
+        }
+    }
 }
 
 
