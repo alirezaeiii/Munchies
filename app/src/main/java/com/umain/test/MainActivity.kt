@@ -59,13 +59,13 @@ fun NavGraph(navController: NavHostController) {
                 })
         ) { from ->
             val restaurant = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                from.arguments?.getParcelable(RESTAURANT, Restaurant::class.java)!!
+                from.arguments?.getParcelable(RESTAURANT, Restaurant::class.java)
             } else {
                 @Suppress("DEPRECATION")
-                from.arguments?.getParcelable(RESTAURANT)!!
+                from.arguments?.getParcelable(RESTAURANT)
             }
             DetailsScreen(
-                restaurant,
+                restaurant!!,
                 hiltViewModel(),
                 navController::navigateUp
             )
