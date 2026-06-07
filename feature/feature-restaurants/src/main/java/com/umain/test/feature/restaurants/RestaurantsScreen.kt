@@ -127,7 +127,7 @@ fun RestaurantsScreen(
 }
 
 @Composable
-fun UmainFilterChipRow(
+private fun UmainFilterChipRow(
     allFilters: List<Filter>,
     activeFilters: List<String>,
     onSelectionChanged: (List<String>) -> Unit
@@ -160,7 +160,7 @@ fun UmainFilterChipRow(
 }
 
 @Composable
-fun UmainFilterChip(
+private fun UmainFilterChip(
     text: String,
     imageUrl: String?,
     isSelected: Boolean,
@@ -208,9 +208,8 @@ fun UmainFilterChip(
     }
 }
 
-
 @Composable
-fun RestaurantsScreenContent(
+private fun RestaurantsScreenContent(
     filteredRestaurants: List<Restaurant>,
     navigateToDetail: (Restaurant) -> Unit
 ) {
@@ -227,86 +226,93 @@ fun RestaurantsScreenContent(
             contentPadding = PaddingValues(vertical = 8.dp, horizontal = 16.dp)
         ) {
             items(filteredRestaurants) { restaurant ->
-                Card(
-                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-                    modifier = Modifier.padding(top = 8.dp, bottom = 8.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.background
-                    ),
-                    shape = RoundedCornerShape(
-                        topStart = 12.dp,
-                        topEnd = 12.dp,
-                        bottomEnd = 0.dp,
-                        bottomStart = 0.dp
-                    ),
-                    onClick = { navigateToDetail(restaurant) }
-                ) {
+                RestaurantItem(restaurant, navigateToDetail)
+            }
+        }
+    }
+}
 
-                    AsyncImage(
-                        model = ImageRequest.Builder(LocalContext.current)
-                            .data(restaurant.imageUrl)
-                            .crossfade(true)
-                            .build(),
+@Composable
+private fun RestaurantItem(
+    restaurant: Restaurant,
+    navigateToDetail: (Restaurant) -> Unit
+) {
+    Card(
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        modifier = Modifier.padding(top = 8.dp, bottom = 8.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.background
+        ),
+        shape = RoundedCornerShape(
+            topStart = 12.dp,
+            topEnd = 12.dp,
+            bottomEnd = 0.dp,
+            bottomStart = 0.dp
+        ),
+        onClick = { navigateToDetail(restaurant) }
+    ) {
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(restaurant.imageUrl)
+                .crossfade(true)
+                .build(),
+            contentDescription = null,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(132.dp),
+            contentScale = ContentScale.FillWidth
+        )
+        Box(
+            modifier = Modifier
+                .padding(8.dp)
+                .fillMaxWidth()
+        ) {
+            Column {
+                Text(
+                    text = restaurant.name,
+                    color = DarkText
+                )
+                Spacer(modifier = Modifier.height(2.dp))
+                Text(
+                    text = restaurant.filterNames.joinToString(separator = " • "),
+                    color = GrayText
+                )
+                Spacer(modifier = Modifier.height(2.dp))
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_clock),
                         contentDescription = null,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(132.dp),
-                        contentScale = ContentScale.FillWidth
+                        modifier = Modifier.size(12.dp)
                     )
-                    Box(
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .fillMaxWidth()
-                    ) {
-                        Column {
-                            Text(
-                                text = restaurant.name,
-                                color = DarkText
-                            )
-                            Spacer(modifier = Modifier.height(2.dp))
-                            Text(
-                                text = restaurant.filterNames.joinToString(separator = " • "),
-                                color = GrayText
-                            )
-                            Spacer(modifier = Modifier.height(2.dp))
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Image(
-                                    painter = painterResource(id = R.drawable.ic_clock),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(12.dp)
-                                )
-                                Text(
-                                    text = String.format(
-                                        Locale.ROOT,
-                                        "%d mins",
-                                        restaurant.deliveryTimeMinutes
-                                    ),
-                                    color = subTitleText,
-                                    modifier = Modifier.padding(start = 3.dp)
-                                )
-                            }
-                        }
-                        Row(
-                            modifier = Modifier.align(Alignment.TopEnd)
-                        ) {
-                            Image(
-                                painter = painterResource(id = R.drawable.ic_star),
-                                contentDescription = null,
-                                modifier = Modifier.size(14.dp)
-                            )
-                            Text(
-                                text = String.format(
-                                    Locale.ROOT,
-                                    "%.1f", restaurant.rating
-                                ),
-                                color = subTitleText,
-                                modifier = Modifier.padding(start = 3.dp)
-                            )
-                        }
-                    }
+                    Text(
+                        text = String.format(
+                            Locale.ROOT,
+                            "%d mins",
+                            restaurant.deliveryTimeMinutes
+                        ),
+                        color = subTitleText,
+                        modifier = Modifier.padding(start = 3.dp)
+                    )
                 }
+            }
+            Row(
+                modifier = Modifier.align(Alignment.TopEnd)
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_star),
+                    contentDescription = null,
+                    modifier = Modifier.size(14.dp)
+                )
+                Text(
+                    text = String.format(
+                        Locale.ROOT,
+                        "%.1f", restaurant.rating
+                    ),
+                    color = subTitleText,
+                    modifier = Modifier.padding(start = 3.dp)
+                )
             }
         }
     }
