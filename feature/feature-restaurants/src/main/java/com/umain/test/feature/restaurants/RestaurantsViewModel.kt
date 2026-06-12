@@ -19,13 +19,15 @@ class RestaurantsViewModel @Inject constructor(
         val activeFilters = _state.value.activeFilters
         val filteredRestaurants = getFilteredRestaurants(activeFilters, items)
 
-        _state.value = RestaurantsViewState(
-            base = ViewState(
-                items = items
-            ),
-            filteredRestaurants = filteredRestaurants,
-            activeFilters = activeFilters
-        )
+        updateState {
+            RestaurantsViewState(
+                base = ViewState(
+                    items = items
+                ),
+                filteredRestaurants = filteredRestaurants,
+                activeFilters = activeFilters
+            )
+        }
     }
 
     fun onFilterChanged(filters: List<String>) {
