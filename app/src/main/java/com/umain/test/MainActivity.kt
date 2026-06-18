@@ -16,8 +16,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.google.gson.Gson
 import com.umain.test.common.ui.AppTheme
-import com.umain.test.common.ui.common.Screens
-import com.umain.test.common.ui.common.Screens.Companion.RESTAURANT
+import com.umain.test.common.ui.common.Routes
+import com.umain.test.common.ui.common.Routes.Companion.RESTAURANT
 import com.umain.test.domain.model.Restaurant
 import com.umain.test.feature.details.DetailsScreen
 import com.umain.test.feature.restaurants.RestaurantsScreen
@@ -43,17 +43,17 @@ class MainActivity : AppCompatActivity() {
 
 @Composable
 fun NavGraph(navController: NavHostController) {
-    NavHost(navController, startDestination = Screens.Restaurants.title) {
-        composable(Screens.Restaurants.title) {
+    NavHost(navController, startDestination = Routes.Restaurants.title) {
+        composable(Routes.Restaurants.title) {
             RestaurantsScreen(hiltViewModel()) { restaurant ->
                 val json = Uri.encode(Gson().toJson(restaurant))
                 navController.navigate(
-                    Screens.Details.title.replace("{${RESTAURANT}}", json)
+                    Routes.Details.title.replace("{${RESTAURANT}}", json)
                 )
             }
         }
         composable(
-            Screens.Details.title, arguments = listOf(
+            Routes.Details.title, arguments = listOf(
                 navArgument(RESTAURANT) {
                     type = RestaurantNavType()
                 })

@@ -3,7 +3,7 @@ package com.umain.test.feature.details
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.umain.test.common.ui.common.Screens.Companion.RESTAURANT
+import com.umain.test.common.ui.common.Routes.Companion.RESTAURANT
 import com.umain.test.common.utils.getErrorMessage
 import com.umain.test.domain.model.Restaurant
 import com.umain.test.domain.repository.StatusRepository
