@@ -1,4 +1,4 @@
-package com.umain.test.common.ui
+package com.umain.test.common.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

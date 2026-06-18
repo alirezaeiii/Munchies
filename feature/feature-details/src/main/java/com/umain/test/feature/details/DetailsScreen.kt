@@ -36,8 +36,8 @@ import androidx.constraintlayout.compose.ExperimentalMotionApi
 import androidx.constraintlayout.compose.MotionLayout
 import androidx.constraintlayout.compose.MotionScene
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.umain.test.common.ui.DarkText
-import com.umain.test.common.ui.GrayText
+import com.umain.test.common.ui.theme.DarkText
+import com.umain.test.common.ui.theme.GrayText
 import com.umain.test.common.ui.common.ErrorScreen
 import com.umain.test.common.ui.common.ProgressScreen
 import com.umain.test.common.ui.common.RestaurantImage

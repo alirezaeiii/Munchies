@@ -15,7 +15,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.google.gson.Gson
-import com.umain.test.common.ui.AppTheme
+import com.umain.test.common.ui.theme.AppTheme
 import com.umain.test.common.ui.common.Routes
 import com.umain.test.common.ui.common.Routes.Companion.RESTAURANT
 import com.umain.test.domain.model.Restaurant

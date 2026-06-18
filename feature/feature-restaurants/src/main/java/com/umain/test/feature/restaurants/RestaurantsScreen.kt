@@ -50,12 +50,12 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.umain.test.common.base.Content
-import com.umain.test.common.ui.DarkText
-import com.umain.test.common.ui.GrayText
+import com.umain.test.common.ui.theme.DarkText
+import com.umain.test.common.ui.theme.GrayText
 import com.umain.test.common.ui.common.UmainSwipeRefresh
-import com.umain.test.common.ui.selectedContainerColor
-import com.umain.test.common.ui.selectedLabelColor
-import com.umain.test.common.ui.subTitleText
+import com.umain.test.common.ui.theme.selectedContainerColor
+import com.umain.test.common.ui.theme.selectedLabelColor
+import com.umain.test.common.ui.theme.subTitleText
 import com.umain.test.domain.model.Filter
 import com.umain.test.domain.model.Restaurant
 import java.util.Locale
