@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 
-abstract class BaseViewModel<TYPE, STATE : BaseScreenState<TYPE>, QueryType, FetchType>(
+abstract class BaseViewModel<TYPE, STATE : BaseScreenState<TYPE, STATE>, QueryType, FetchType>(
     private val repository: BaseRepository<TYPE, QueryType, FetchType>,
     initialState: STATE,
     loadDataOnInit: Boolean = true

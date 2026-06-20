@@ -9,7 +9,7 @@ data class RestaurantsViewState(
     override val base: ViewState<RestaurantsWrapper> = ViewState(),
     val filteredRestaurants: List<Restaurant> = emptyList(),
     val activeFilters: List<String> = emptyList()
-) : BaseScreenState<RestaurantsWrapper> {
+) : BaseScreenState<RestaurantsWrapper, RestaurantsViewState> {
 
     override fun copyWithBase(base: ViewState<RestaurantsWrapper>) = copy(base = base)
 }

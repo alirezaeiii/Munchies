@@ -10,7 +10,7 @@ import com.umain.test.common.base.BaseScreenState
 import com.umain.test.common.base.BaseViewModel
 
 @Composable
-fun <TYPE, STATE : BaseScreenState<TYPE>, QueryType, FetchType> UmainSwipeRefresh(
+fun <TYPE, STATE : BaseScreenState<TYPE, STATE>, QueryType, FetchType> UmainSwipeRefresh(
     modifier: Modifier = Modifier,
     viewModel: BaseViewModel<TYPE, STATE, QueryType, FetchType>,
     state: STATE,

@@ -13,7 +13,7 @@ import com.umain.test.common.ui.common.ProgressScreen
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
-fun <TYPE, STATE : BaseScreenState<TYPE>, QueryType, FetchType> Content(
+fun <TYPE, STATE : BaseScreenState<TYPE, STATE>, QueryType, FetchType> Content(
     viewModel: BaseViewModel<TYPE, STATE, QueryType, FetchType>,
     snackbarHostState: SnackbarHostState,
     mainContent: @Composable (STATE) -> Unit
