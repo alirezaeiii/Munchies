@@ -57,4 +57,9 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.coil.compose.core)
     implementation(libs.lottie.compose)
+
+    testImplementation(libs.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.kotlin.test)
 }
