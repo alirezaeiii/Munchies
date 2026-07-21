@@ -57,4 +57,8 @@ dependencies {
     implementation(libs.androidx.compose.uitooloing)
     implementation(libs.androidx.compose.constraintlayout)
 
+    testImplementation(libs.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.kotlin.test)
 }
