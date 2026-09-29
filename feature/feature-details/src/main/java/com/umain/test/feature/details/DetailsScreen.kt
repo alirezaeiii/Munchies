@@ -36,17 +36,17 @@ import androidx.constraintlayout.compose.ExperimentalMotionApi
 import androidx.constraintlayout.compose.MotionLayout
 import androidx.constraintlayout.compose.MotionScene
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.umain.test.common.ui.theme.DarkText
-import com.umain.test.common.ui.theme.GrayText
 import com.umain.test.common.ui.common.ErrorScreen
 import com.umain.test.common.ui.common.ProgressScreen
 import com.umain.test.common.ui.common.RestaurantImage
+import com.umain.test.common.ui.theme.DarkText
+import com.umain.test.common.ui.theme.GrayText
 import com.umain.test.domain.model.Restaurant
 import com.umain.test.common.R as commonR
 
 @Composable
 fun DetailsScreen(
-    restaurant: Restaurant,
+    restaurant: Restaurant?,
     viewModel: DetailViewModel,
     navigateUp: () -> Unit
 ) {
@@ -71,7 +71,7 @@ fun DetailsScreen(
 @OptIn(ExperimentalMotionApi::class)
 @Composable
 fun DetailsScreen(
-    restaurant: Restaurant,
+    restaurant: Restaurant?,
     state: DetailViewState,
     navigateUp: () -> Unit
 ) {
@@ -169,7 +169,7 @@ fun DetailsScreen(
                 .fillMaxSize()
         ) {
             RestaurantImage(
-                thumb = restaurant.imageUrl,
+                thumb = restaurant?.imageUrl,
                 modifier = Modifier.matchParentSize()
             )
 
@@ -191,46 +191,48 @@ fun DetailsScreen(
                 tint = customColor("icon", "tint")
             )
         }
-        Text(
-            modifier = Modifier
-                .layoutId("title")
-                .padding(vertical = 40.dp, horizontal = 12.dp),
-            text = restaurant.name,
-            fontSize = 30.sp,
-            color = customColor("title", "color")
-        )
-        Card(
-            elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-                .layoutId("box"),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.background
-            ),
-            shape = RoundedCornerShape(12.dp)
-        ) {
-            Column {
-                Spacer(Modifier.height(10.dp))
-                Text(
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
-                    text = restaurant.name,
-                    fontSize = 20.sp,
-                    color = DarkText
-                )
-                Text(
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
-                    text = restaurant.filterNames.joinToString(separator = " • "),
-                    fontSize = 14.sp,
-                    color = GrayText
-                )
-                Text(
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
-                    text = stringResource(if (state.isOpen) R.string.open else R.string.close),
-                    fontSize = 17.sp,
-                    color = if (state.isOpen) Color.Green else Color.Red
-                )
-                Spacer(Modifier.height(10.dp))
+        restaurant?.let { restaurant ->
+            Text(
+                modifier = Modifier
+                    .layoutId("title")
+                    .padding(vertical = 40.dp, horizontal = 12.dp),
+                text = restaurant.name,
+                fontSize = 30.sp,
+                color = customColor("title", "color")
+            )
+            Card(
+                elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+                    .layoutId("box"),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.background
+                ),
+                shape = RoundedCornerShape(12.dp)
+            ) {
+                Column {
+                    Spacer(Modifier.height(10.dp))
+                    Text(
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
+                        text = restaurant.name,
+                        fontSize = 20.sp,
+                        color = DarkText
+                    )
+                    Text(
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
+                        text = restaurant.filterNames.joinToString(separator = " • "),
+                        fontSize = 14.sp,
+                        color = GrayText
+                    )
+                    Text(
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 10.dp),
+                        text = stringResource(if (state.isOpen) R.string.open else R.string.close),
+                        fontSize = 17.sp,
+                        color = if (state.isOpen) Color.Green else Color.Red
+                    )
+                    Spacer(Modifier.height(10.dp))
+                }
             }
         }
     }

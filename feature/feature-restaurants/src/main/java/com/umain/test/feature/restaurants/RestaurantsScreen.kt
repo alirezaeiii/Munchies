@@ -50,9 +50,9 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.umain.test.common.base.Content
+import com.umain.test.common.ui.common.UmainSwipeRefresh
 import com.umain.test.common.ui.theme.DarkText
 import com.umain.test.common.ui.theme.GrayText
-import com.umain.test.common.ui.common.UmainSwipeRefresh
 import com.umain.test.common.ui.theme.selectedContainerColor
 import com.umain.test.common.ui.theme.selectedLabelColor
 import com.umain.test.common.ui.theme.subTitleText
@@ -64,7 +64,7 @@ import java.util.Locale
 @Composable
 fun RestaurantsScreen(
     viewModel: RestaurantsViewModel,
-    navigateToDetail: (Restaurant) -> Unit
+    navigateToDetail: (String) -> Unit
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
@@ -94,7 +94,8 @@ fun RestaurantsScreen(
 
         Content(
             viewModel = viewModel,
-            snackbarHostState = snackbarHostState
+            snackbarHostState = snackbarHostState,
+            onNavigate = navigateToDetail
         ) { state ->
 
             Column(
@@ -113,12 +114,12 @@ fun RestaurantsScreen(
 
                 UmainSwipeRefresh(
                     modifier = Modifier.align(Alignment.CenterHorizontally),
-                    viewModel = viewModel,
                     state = state,
+                    refresh = viewModel::refresh
                 ) {
                     RestaurantsScreenContent(
                         state.filteredRestaurants,
-                        navigateToDetail
+                        viewModel::onRestaurantClick
                     )
                 }
             }

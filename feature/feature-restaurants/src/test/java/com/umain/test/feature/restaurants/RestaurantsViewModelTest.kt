@@ -1,13 +1,15 @@
 package com.umain.test.feature.restaurants
 
+import android.net.Uri
+import app.cash.turbine.test
 import com.umain.test.common.base.BaseRepository
-import com.umain.test.common.base.BaseViewModel
 import com.umain.test.common.utils.Async
 import com.umain.test.domain.model.Filter
 import com.umain.test.domain.model.Restaurant
 import com.umain.test.domain.model.RestaurantsWrapper
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.mockkStatic
 import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -128,11 +130,6 @@ class RestaurantsViewModelTest {
 
         viewModel = RestaurantsViewModel(repository)
 
-        val events = mutableListOf<BaseViewModel.UiEvent>()
-        val collectJob = launch {
-            viewModel.showWarningUiEvent.collect { events.add(it) }
-        }
-
         // Trigger emission
         launch {
             repositoryFlow.emit(Async.Error(warningMessage, isWarning = true))
@@ -142,9 +139,21 @@ class RestaurantsViewModelTest {
         val state = viewModel.state.value
         assertEquals(warningMessage, state.base.error)
         assertTrue(state.base.isWarning)
+    }
 
-        assertTrue(events.any { it is BaseViewModel.UiEvent.ShowWarning && it.message == warningMessage }, "Event not emitted")
-        
-        collectJob.cancel()
+    @Test
+    fun `onRestaurantClick emits Navigate event`() = runTest {
+        every { repository.getResult(null, null, true) } returns flowOf(Async.Loading())
+        mockkStatic(Uri::class)
+        every { Uri.encode(any()) } answers { firstArg() }
+        val viewModel = RestaurantsViewModel(repository)
+        val restaurant = Restaurant("r1", "Restaurant 1", 4.5f, listOf("1"), emptyList(), "url1", 30)
+
+        viewModel.uiEvent.test {
+            viewModel.onRestaurantClick(restaurant)
+            val event = awaitItem()
+            assertTrue(event is RestaurantsUiEvent.Navigate)
+            cancelAndIgnoreRemainingEvents()
+        }
     }
 }

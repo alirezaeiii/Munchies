@@ -1,7 +1,5 @@
 package com.umain.test
 
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
@@ -14,10 +12,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.google.gson.Gson
-import com.umain.test.common.ui.theme.AppTheme
 import com.umain.test.common.ui.common.Routes
 import com.umain.test.common.ui.common.Routes.Companion.RESTAURANT
+import com.umain.test.common.ui.theme.AppTheme
+import com.umain.test.common.utils.asRestaurant
 import com.umain.test.domain.model.Restaurant
 import com.umain.test.feature.details.DetailsScreen
 import com.umain.test.feature.restaurants.RestaurantsScreen
@@ -45,11 +43,8 @@ class MainActivity : AppCompatActivity() {
 fun NavGraph(navController: NavHostController) {
     NavHost(navController, startDestination = Routes.Restaurants.title) {
         composable(Routes.Restaurants.title) {
-            RestaurantsScreen(hiltViewModel()) { restaurant ->
-                val json = Uri.encode(Gson().toJson(restaurant))
-                navController.navigate(
-                    Routes.Details.title.replace("{${RESTAURANT}}", json)
-                )
+            RestaurantsScreen(hiltViewModel()) { route ->
+                navController.navigate(route)
             }
         }
         composable(
@@ -58,14 +53,8 @@ fun NavGraph(navController: NavHostController) {
                     type = RestaurantNavType()
                 })
         ) { from ->
-            val restaurant = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                from.arguments?.getParcelable(RESTAURANT, Restaurant::class.java)
-            } else {
-                @Suppress("DEPRECATION")
-                from.arguments?.getParcelable(RESTAURANT)
-            }
             DetailsScreen(
-                restaurant!!,
+                from.arguments?.asRestaurant(RESTAURANT, Restaurant::class.java),
                 hiltViewModel(),
                 navController::navigateUp
             )

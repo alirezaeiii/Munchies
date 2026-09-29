@@ -1,10 +1,10 @@
 package com.umain.test
 
-import android.os.Build
 import android.os.Bundle
 import androidx.navigation.NavType
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
+import com.umain.test.common.utils.asRestaurant
 import com.umain.test.domain.model.Restaurant
 
 class RestaurantNavType : NavType<Restaurant>(isNullableAllowed = false) {
@@ -12,12 +12,7 @@ class RestaurantNavType : NavType<Restaurant>(isNullableAllowed = false) {
     private val gson by lazy { Gson() }
 
     override fun get(bundle: Bundle, key: String): Restaurant? {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            bundle.getParcelable(key, Restaurant::class.java)
-        } else {
-            @Suppress("DEPRECATION")
-            bundle.getParcelable(key)
-        }
+        return bundle.asRestaurant(key, Restaurant::class.java)
     }
 
     override fun parseValue(value: String): Restaurant {
