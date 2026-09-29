@@ -29,8 +29,11 @@ class DetailViewModel @Inject constructor(
 
     fun load() = viewModelScope.launch {
         _state.update { it.copy(isLoading = true) }
+        val id = requireNotNull(savedStateHandle.get<Restaurant>(RESTAURANT)?.id) {
+            "RESTAURANT must be set in SavedStateHandle before load()"
+        }
         runCatching {
-            repository.getStatus(savedStateHandle.get<Restaurant>(RESTAURANT)?.id!!)
+            repository.getStatus(id)
         }.onSuccess { status ->
             _state.update {
                 it.copy(
