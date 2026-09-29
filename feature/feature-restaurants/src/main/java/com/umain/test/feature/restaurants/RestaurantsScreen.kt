@@ -115,7 +115,7 @@ fun RestaurantsScreen(
                 UmainSwipeRefresh(
                     modifier = Modifier.align(Alignment.CenterHorizontally),
                     state = state,
-                    refresh = viewModel::refresh
+                    refresh = { viewModel.refresh(true) }
                 ) {
                     RestaurantsScreenContent(
                         state.filteredRestaurants,
