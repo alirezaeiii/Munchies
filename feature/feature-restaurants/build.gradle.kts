@@ -46,6 +46,7 @@ android {
 
 dependencies {
     implementation(project(":core:domain"))
+    implementation(project(":common"))
     implementation(libs.androidx.material)
     implementation(libs.androidx.compose)
     implementation(libs.androidx.compose.material)

@@ -1,8 +1,8 @@
-package com.umain.test.common.base
+package com.umain.test.domain.repository
 
 import android.content.Context
-import com.umain.test.common.R
-import com.umain.test.common.utils.Async
+import com.umain.test.domain.R
+import com.umain.test.domain.utils.Async
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector

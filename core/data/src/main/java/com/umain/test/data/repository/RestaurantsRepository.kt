@@ -1,7 +1,6 @@
 package com.umain.test.data.repository
 
 import android.content.Context
-import com.umain.test.common.base.BaseRepository
 import com.umain.test.data.api.BackendApi
 import com.umain.test.data.database.FilterEntityDao
 import com.umain.test.data.database.RestaurantEntityDao
@@ -11,6 +10,7 @@ import com.umain.test.data.di.IoDispatcher
 import com.umain.test.data.response.asDomainModel
 import com.umain.test.domain.model.Restaurant
 import com.umain.test.domain.model.RestaurantsWrapper
+import com.umain.test.domain.repository.BaseRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.async

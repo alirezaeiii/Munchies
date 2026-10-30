@@ -2,7 +2,7 @@ package com.umain.test.data.repository
 
 import android.content.Context
 import app.cash.turbine.test
-import com.umain.test.common.utils.Async
+import com.umain.test.domain.utils.Async
 import com.umain.test.data.api.BackendApi
 import com.umain.test.data.database.FilterEntityDao
 import com.umain.test.data.database.RestaurantEntity

@@ -2,7 +2,8 @@ package com.umain.test.common.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.umain.test.common.utils.Async
+import com.umain.test.domain.utils.Async
+import com.umain.test.domain.repository.BaseRepository
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow

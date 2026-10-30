@@ -2,11 +2,11 @@ package com.umain.test.feature.restaurants
 
 import android.net.Uri
 import app.cash.turbine.test
-import com.umain.test.common.base.BaseRepository
-import com.umain.test.common.utils.Async
 import com.umain.test.domain.model.Filter
 import com.umain.test.domain.model.Restaurant
 import com.umain.test.domain.model.RestaurantsWrapper
+import com.umain.test.domain.repository.BaseRepository
+import com.umain.test.domain.utils.Async
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic

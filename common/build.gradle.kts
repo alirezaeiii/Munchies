@@ -45,6 +45,7 @@ android {
 }
 
 dependencies {
+    api(project(":core:domain"))
     implementation(libs.retrofit)
     implementation(libs.androidx.compose)
     implementation(libs.androidx.compose.material)

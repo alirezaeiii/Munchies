@@ -1,4 +1,4 @@
-package com.umain.test.common.utils
+package com.umain.test.domain.utils
 
 sealed class Async<out R> {
     data class Loading(val isRefreshing: Boolean = false) : Async<Nothing>()

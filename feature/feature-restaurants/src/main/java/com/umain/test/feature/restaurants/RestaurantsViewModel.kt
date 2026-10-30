@@ -2,7 +2,7 @@ package com.umain.test.feature.restaurants
 
 import android.net.Uri
 import com.google.gson.Gson
-import com.umain.test.common.base.BaseRepository
+import com.umain.test.domain.repository.BaseRepository
 import com.umain.test.common.base.BaseViewModel
 import com.umain.test.common.base.ViewState
 import com.umain.test.common.ui.common.Routes
