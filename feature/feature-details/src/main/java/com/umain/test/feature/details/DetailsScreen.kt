@@ -42,7 +42,7 @@ import com.umain.test.common.ui.common.RestaurantImage
 import com.umain.test.common.ui.theme.DarkText
 import com.umain.test.common.ui.theme.GrayText
 import com.umain.test.domain.model.Restaurant
-import com.umain.test.common.R as commonR
+import com.umain.test.domain.R as domainR
 
 @Composable
 fun DetailsScreen(
@@ -59,7 +59,7 @@ fun DetailsScreen(
             state.isLoading -> ProgressScreen()
             state.error != null ->
                 ErrorScreen(
-                    if (state.errorMessage == null) stringResource(commonR.string.error_msg)
+                    if (state.errorMessage == null) stringResource(domainR.string.error_msg)
                     else stringResource(R.string.restaurant_not_found)
                 ) { viewModel.load() }
 
