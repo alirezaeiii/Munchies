@@ -1,11 +1,7 @@
 package com.umain.test.common.base
 
-interface UiEvent {
-    interface Warning : UiEvent {
-        val message: String
-    }
-    interface Navigation : UiEvent {
-        val route: String
-    }
-    interface NavigateUp : UiEvent
+sealed interface UiEvent {
+    data class ShowWarning(val message: String) : UiEvent
+    data class Navigate(val route: String) : UiEvent
+    data object NavigateUp : UiEvent
 }

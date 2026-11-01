@@ -2,6 +2,7 @@ package com.umain.test.feature.restaurants
 
 import android.net.Uri
 import app.cash.turbine.test
+import com.umain.test.common.base.UiEvent
 import com.umain.test.domain.model.Filter
 import com.umain.test.domain.model.Restaurant
 import com.umain.test.domain.model.RestaurantsWrapper
@@ -152,7 +153,7 @@ class RestaurantsViewModelTest {
         viewModel.uiEvent.test {
             viewModel.onRestaurantClick(restaurant)
             val event = awaitItem()
-            assertTrue(event is RestaurantsUiEvent.Navigate)
+            assertTrue(event is UiEvent.Navigate)
             cancelAndIgnoreRemainingEvents()
         }
     }

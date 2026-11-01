@@ -2,8 +2,8 @@ package com.umain.test.common.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.umain.test.domain.utils.Async
 import com.umain.test.domain.repository.BaseRepository
+import com.umain.test.domain.utils.Async
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,9 +15,8 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-abstract class BaseViewModel<TYPE, STATE : BaseScreenState<TYPE, STATE>, QueryType, FetchType, EVENT: UiEvent>(
+abstract class BaseViewModel<TYPE, STATE : BaseScreenState<TYPE, STATE>, QueryType, FetchType>(
     private val repository: BaseRepository<TYPE, QueryType, FetchType>,
-    private val createWarningEvent: (String) -> EVENT,
     initialState: STATE,
     private val queryValue: QueryType? = null,
     private val fetchValue: FetchType? = null,
@@ -27,7 +26,7 @@ abstract class BaseViewModel<TYPE, STATE : BaseScreenState<TYPE, STATE>, QueryTy
     private val _state = MutableStateFlow(initialState)
     val state: StateFlow<STATE> = _state.asStateFlow()
 
-    private val _uiEvent = MutableSharedFlow<EVENT>()
+    private val _uiEvent = MutableSharedFlow<UiEvent>()
     val uiEvent = _uiEvent.asSharedFlow()
 
     private var job: Job? = null
@@ -77,10 +76,10 @@ abstract class BaseViewModel<TYPE, STATE : BaseScreenState<TYPE, STATE>, QueryTy
         old.withError(msg, isWarning)
 
     private suspend fun emitWarning(message: String) {
-        _uiEvent.emit(createWarningEvent(message))
+        _uiEvent.emit(UiEvent.ShowWarning(message))
     }
 
-    protected fun emitEvent(event: EVENT) {
+    protected fun emitEvent(event: UiEvent) {
         viewModelScope.launch {
             _uiEvent.emit(event)
         }

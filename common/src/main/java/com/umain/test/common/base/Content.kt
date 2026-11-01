@@ -13,8 +13,8 @@ import com.umain.test.common.ui.common.ProgressScreen
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
-fun <TYPE, STATE : BaseScreenState<TYPE, STATE>, QueryType, FetchType, EVENT: UiEvent> Content(
-    viewModel: BaseViewModel<TYPE, STATE, QueryType, FetchType, EVENT>,
+fun <TYPE, STATE : BaseScreenState<TYPE, STATE>, QueryType, FetchType> Content(
+    viewModel: BaseViewModel<TYPE, STATE, QueryType, FetchType>,
     snackbarHostState: SnackbarHostState,
     onNavigate: (String) -> Unit = {},
     onNavigateUp: () -> Unit = {},
@@ -33,8 +33,8 @@ fun <TYPE, STATE : BaseScreenState<TYPE, STATE>, QueryType, FetchType, EVENT: Ui
         LaunchedEffect(Unit) {
             viewModel.uiEvent.collectLatest { event ->
                 when (event) {
-                    is UiEvent.Warning -> snackbarHostState.showSnackbar(event.message)
-                    is UiEvent.Navigation -> onNavigate(event.route)
+                    is UiEvent.ShowWarning -> snackbarHostState.showSnackbar(event.message)
+                    is UiEvent.Navigate -> onNavigate(event.route)
                     is UiEvent.NavigateUp -> onNavigateUp()
                 }
             }

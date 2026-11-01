@@ -2,22 +2,22 @@ package com.umain.test.feature.restaurants
 
 import android.net.Uri
 import com.google.gson.Gson
-import com.umain.test.domain.repository.BaseRepository
 import com.umain.test.common.base.BaseViewModel
+import com.umain.test.common.base.UiEvent
 import com.umain.test.common.base.ViewState
 import com.umain.test.common.ui.common.Routes
 import com.umain.test.common.ui.common.Routes.Companion.RESTAURANT
 import com.umain.test.domain.model.Restaurant
 import com.umain.test.domain.model.RestaurantsWrapper
+import com.umain.test.domain.repository.BaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class RestaurantsViewModel @Inject constructor(
     repository: BaseRepository<RestaurantsWrapper, Nothing, Nothing>
-) : BaseViewModel<RestaurantsWrapper, RestaurantsViewState, Nothing, Nothing, RestaurantsUiEvent>(
+) : BaseViewModel<RestaurantsWrapper, RestaurantsViewState, Nothing, Nothing>(
     repository,
-    RestaurantsUiEvent::ShowWarning,
     RestaurantsViewState(base = ViewState(isLoading = true))
 ) {
 
@@ -51,7 +51,7 @@ class RestaurantsViewModel @Inject constructor(
     fun onRestaurantClick(restaurant: Restaurant) {
         val json = Uri.encode(Gson().toJson(restaurant))
         val route = Routes.Details.title.replace("{${RESTAURANT}}", json)
-        emitEvent(RestaurantsUiEvent.Navigate(route))
+        emitEvent(UiEvent.Navigate(route))
     }
 
     private fun getFilteredRestaurants(filters: List<String>, items: RestaurantsWrapper) =
