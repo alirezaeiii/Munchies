@@ -30,16 +30,13 @@ abstract class BaseRepository<TYPE, QueryType, FetchType>(
     ): Flow<Async<TYPE>> =
         flow {
             emit(Async.Loading())
-            val dbData = query(queryValue)
-
-            when {
-                dbData == null -> load(
+            when (val dbData = query(queryValue)) {
+                null -> load(
                     queryValue = queryValue,
                     fetchValue = fetchValue,
                     forceRefresh = forceRefresh
                 )
-
-                dbData is List<*> && dbData.isEmpty() -> load(
+                is List<*> if dbData.isEmpty() -> load(
                     queryValue = queryValue,
                     fetchValue = fetchValue,
                     forceRefresh = forceRefresh
@@ -60,7 +57,7 @@ abstract class BaseRepository<TYPE, QueryType, FetchType>(
             emit(Async.Success(it))
         }
         try {
-            if (forceRefresh || isCacheExpired()) {
+            if (forceRefresh || dbData == null || isCacheExpired()) {
                 if (dbData != null) {
                     emit(Async.Loading(true))
                 }
